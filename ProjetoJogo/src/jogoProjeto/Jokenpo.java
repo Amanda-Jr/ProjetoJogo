@@ -36,7 +36,7 @@ public class Jokenpo implements Jogo{
 	@Override
 	public boolean jogar() {
 		if(vencer()== -1) {
-			rodada++;
+			turno();
 			System.out.println("\n-------------JOKENPO-------------");
 			System.out.println("Rodada: " + rodada);
 			
@@ -114,7 +114,11 @@ public class Jokenpo implements Jogo{
 		}
 	}
 
-	
+	@Override
+	public int turno() {
+		rodada++;
+		return rodada;
+	}
 
 	@Override
 	public int vencer() {
@@ -133,6 +137,8 @@ public class Jokenpo implements Jogo{
 		
 		return -1;
 	}
+
+	
 
 	
 
