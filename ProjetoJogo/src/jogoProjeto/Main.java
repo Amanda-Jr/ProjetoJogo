@@ -6,8 +6,8 @@ public class Main {
 		System.out.println("Olá, mundo!");
 		Jokenpo jkp = new Jokenpo();
 		jkp.inicializarJogadas();
-		jkp.iniciarJogadores();
-		jkp.jogar();
+		//jkp.iniciarJogadores();
+		//jkp.jogar();
 	}
 
 }

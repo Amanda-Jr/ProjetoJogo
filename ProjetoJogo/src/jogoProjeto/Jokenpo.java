@@ -3,18 +3,20 @@ import java.util.Scanner;
 
 public class Jokenpo implements Jogo{
 	
-	private String jogada[] ;
+	private String jogada[] = new String[3];
 	private Computador computador;
 	private Humano humano;
 	private int rodada;
-	private int vencer;
+	private int pontosJogador;
+	private int pontosComputador;
 	
 	Scanner sc = new Scanner(System.in);
 	
 	public Jokenpo() {
-		jogada = new String[3];
-		rodada = 1;
-		vencer = -1;
+		rodada = 0;
+		pontosJogador = 0;
+		pontosComputador = 0;
+		inicializarJogadas();
 		while(jogar());
 	}
 	
@@ -34,7 +36,8 @@ public class Jokenpo implements Jogo{
 	@Override
 	public boolean jogar() {
 		if(vencer()== -1) {
-			System.out.println("-------------JOKENPO-------------");
+			rodada++;
+			System.out.println("\n-------------JOKENPO-------------");
 			System.out.println("Rodada: " + rodada);
 			
 			System.out.println("Escolha sua jogada: [1] pedra [2] papel [3] tesoura");
@@ -43,45 +46,70 @@ public class Jokenpo implements Jogo{
 			double aleatorio = Math.random() * 3;
 			int escolhaComputador = (int)aleatorio;
 			
-			if(jogada[escolhaJogador] == jogada[escolhaComputador]) {
+			if(jogada[escolhaJogador-1] == jogada[escolhaComputador]) {
 				System.out.println("Empate!");
-				System.out.println("Jogador e Computador escolheram " + jogada[escolhaJogador]);
+				System.out.println("Jogador e Computador escolheram " + jogada[escolhaJogador-1]);
 			} 
-			else if(jogada[escolhaJogador].equals("pedra") && jogada[escolhaComputador].equals("papel")) {
+			else if(jogada[escolhaJogador-1].equals("pedra") && jogada[escolhaComputador].equals("papel")) {
 				System.out.println("Computador escolheu " + jogada[escolhaComputador]);
-				System.out.println("Computador ganhou!");
+				System.out.println("Computador ganhou a rodada!");
+				pontosComputador++;
 			}
-			else if(jogada[escolhaJogador].equals("pedra") && jogada[escolhaComputador].equals("tesoura")) {
+			else if(jogada[escolhaJogador-1].equals("pedra") && jogada[escolhaComputador].equals("tesoura")) {
 				System.out.println("Computador escolheu " + jogada[escolhaComputador]);
-				System.out.println("Jogador ganhou!");
+				System.out.println("Jogador ganhou a rodada!");
+				pontosJogador++;
 			}
-			else if(jogada[escolhaJogador].equals("papel") && jogada[escolhaComputador].equals("pedra")) {
+			else if(jogada[escolhaJogador-1].equals("papel") && jogada[escolhaComputador].equals("pedra")) {
 				System.out.println("Computador escolheu " + jogada[escolhaComputador]);
-				System.out.println("Jogador ganhou!");
+				System.out.println("Jogador ganhou a rodada!");
+				pontosJogador++;
 			}
-			else if(jogada[escolhaJogador].equals("papel") && jogada[escolhaComputador].equals("tesoura")) {
+			else if(jogada[escolhaJogador-1].equals("papel") && jogada[escolhaComputador].equals("tesoura")) {
 				System.out.println("Computador escolheu " + jogada[escolhaComputador]);
-				System.out.println("Computador ganhou!");
+				System.out.println("Computador ganhou a rodada!");
+				pontosComputador++;
 			}
-			else if(jogada[escolhaJogador].equals("tesoura") && jogada[escolhaComputador].equals("papel")) {
+			else if(jogada[escolhaJogador-1].equals("tesoura") && jogada[escolhaComputador].equals("papel")) {
 				System.out.println("Computador escolheu " + jogada[escolhaComputador]);
-				System.out.println("Jogador ganhou!");
+				System.out.println("Jogador ganhou a rodada!");
+				pontosJogador++;
 			}
-			else if(jogada[escolhaJogador].equals("tesoura") && jogada[escolhaComputador].equals("pedra")) {
+			else if(jogada[escolhaJogador-1].equals("tesoura") && jogada[escolhaComputador].equals("pedra")) {
 				System.out.println("Computador escolheu " + jogada[escolhaComputador]);
-				System.out.println("Computador ganhou!");
+				System.out.println("Computador ganhou a rodada!");
+				pontosComputador++;
 				
-				//somar pontos dos jogadores
 			}
+			
+			
 			
 			return true;
 		}
 		
 		else {
-			if(vencer() == 1) {
-				System.out.println("Jogador venceu!");
-			} 
-			//System.out.println("Computador venceu!");
+			System.out.println("\nPontuacao final");
+			System.out.println("Computador: " + pontosComputador);
+			System.out.println("Jogador: " + pontosJogador);
+			
+			switch(vencer()) {
+				case 1:
+					System.out.println("Resultado final: Jogador venceu!");
+				break;
+				
+				case 2:
+					System.out.println("Resultado final: Computador venceu!");
+				break;
+				
+				case 0:
+					System.out.println("Resultado final: Empate!");
+				break;
+				
+				default:
+					System.out.println("pontuacao errada");
+			}
+			
+			
 			return false;
 		}
 	}
@@ -90,12 +118,20 @@ public class Jokenpo implements Jogo{
 
 	@Override
 	public int vencer() {
-		/*
-		 * if(pontosJogador > pontosComputador){
-		 * 	return 1;
-		 * }
-		 */
-		return 0;
+		
+		 if(rodada == 3){
+			if(pontosJogador > pontosComputador)
+				return 1;
+			else if(pontosJogador < pontosComputador) {
+				return 2;
+			}
+			else if(pontosJogador == pontosComputador) {
+				return 0;
+			}
+			
+		 }
+		
+		return -1;
 	}
 
 	
