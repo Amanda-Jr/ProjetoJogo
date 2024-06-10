@@ -53,9 +53,9 @@ public class JogoDaVelha implements Jogo{
         	tabuleiro.exibeTabuleiro();
             System.out.println("----------------------");
             System.out.println("\nRodada "+rodada);
-            System.out.println("É a vez do jogador " + vez() );
+            System.out.println("É a vez do jogador " + turno() );
             
-            if(vez()==1)
+            if(turno()==1)
                 jogador1.jogar(tabuleiro);
             else
                 jogador2.jogar(tabuleiro);
@@ -70,17 +70,22 @@ public class JogoDaVelha implements Jogo{
 
             return true;
         } else{
-            if(vencer() == -1 )
+            if(vencer() == -1 ) {
                 System.out.println("Jogador 1 ganhou!");
-            else
+            	tabuleiro.exibeTabuleiro();
+            	
+            }else {
                 System.out.println("Jogador 2 ganhou!");
+                tabuleiro.exibeTabuleiro();
+            }
+            	
             
             return false;
         }
             
     }
     
-    public int vez(){
+    public int turno(){
         if(vez%2 == 1)
             return 1;
         else

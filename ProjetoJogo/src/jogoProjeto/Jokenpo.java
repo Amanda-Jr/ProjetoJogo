@@ -17,6 +17,7 @@ public class Jokenpo implements Jogo{
 		pontosJogador = 0;
 		pontosComputador = 0;
 		inicializarJogadas();
+		iniciarJogadores();
 		while(jogar());
 	}
 	
@@ -28,8 +29,8 @@ public class Jokenpo implements Jogo{
 	
 	@Override
 	public void iniciarJogadores() {
-		this.computador = new Computador();
-		this.humano = new Humano();
+		this.computador = new Computador(2);
+		this.humano = new Humano(1);
 		
 	}
 
@@ -37,14 +38,13 @@ public class Jokenpo implements Jogo{
 	public boolean jogar() {
 		if(vencer()== -1) {
 			turno();
-			System.out.println("\n-------------JOKENPO-------------");
+			System.out.println("\n\n-------------JOKENPO-------------");
 			System.out.println("Rodada: " + rodada);
 			
 			System.out.println("Escolha sua jogada: [1] pedra [2] papel [3] tesoura");
-			int escolhaJogador = sc.nextInt();
+			int escolhaJogador = humano.jogar();
 			
-			double aleatorio = Math.random() * 3;
-			int escolhaComputador = (int)aleatorio;
+			int escolhaComputador = computador.jogar();
 			
 			if(jogada[escolhaJogador-1] == jogada[escolhaComputador]) {
 				System.out.println("Empate!");

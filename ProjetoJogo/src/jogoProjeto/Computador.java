@@ -17,17 +17,19 @@ public class Computador extends Jogador{
         tabuleiro.setPosicao(tentativa, jogador);
     }
     
+    public int jogar() {
+    	return jogada.nextInt(3);
+    }
+    
     @Override
     public void Tentativa(Tabuleiro tabuleiro){
         do{
             do{
-                System.out.print("Linha: ");
                 tentativa[0] = jogada.nextInt(3) + 1;
                 
             }while( tentativa[0] > 3 || tentativa[0] < 1);
             
             do{
-                System.out.print("Coluna: ");
                 tentativa[1] = jogada.nextInt(3) + 1;
               
                 

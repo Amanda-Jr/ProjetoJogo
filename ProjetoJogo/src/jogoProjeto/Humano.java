@@ -16,6 +16,10 @@ public class Humano extends Jogador{
         tabuleiro.setPosicao(tentativa, jogador);
     }
     
+    public int jogar() {
+		return entrada.nextInt();
+    }
+    
     @Override
     public void Tentativa(Tabuleiro tabuleiro){
         do{
