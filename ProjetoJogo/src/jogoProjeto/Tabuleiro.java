@@ -1,109 +1,112 @@
 package jogoProjeto;
 import java.util.Scanner;
 
-public class Tabuleiro {
-	private static final char MARCA_JOGADOR_1 = 'X'; 
-	private static final char MARCA_JOGADOR_2 = 'O';
-	
-    private int[][] matriz;
-    protected int jogadorAtual;
+public class JogoDaVelha implements Jogo{
+	private Tabuleiro tabuleiro = new Tabuleiro();
+    private int rodada=1, vez=1;
+    private Jogador jogador1;
+    private Jogador jogador2;
+    public Scanner entrada = new Scanner(System.in);
+
     
-    public Tabuleiro() {
-        matriz = new int[3][3];
-        jogadorAtual = 1;
+    public JogoDaVelha(){
+        iniciarJogadores();
+        
+        while(jogar());
     }
-
-    public void zerarTabuleiro() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                matriz[i][j] = 0;
+    
+    public void iniciarJogadores(){
+        System.out.println("Quem vai ser o Jogador 1 ?");
+        if(escolherJogador() == 1)
+            this.jogador1 = new Humano(1);
+        else
+            this.jogador1 = new Computador(1);
+        
+        System.out.println("----------------------");
+        System.out.println("Quem vai ser o Jogador 2 ?");
+        
+        if(escolherJogador() == 1)
+            this.jogador2 = new Humano(2);
+        else
+            this.jogador2 = new Computador(2);
+        
+    }
+    
+    public int escolherJogador(){
+        int opcao=0;
+        
+        do{
+            System.out.println("1. Humano");
+            System.out.println("2. Computador\n");
+            System.out.print("Opção: ");
+            opcao = entrada.nextInt();
+            
+            if(opcao != 1 && opcao != 2)
+                System.out.println("Opção inválida! Tente novamente");
+        }while(opcao != 1 && opcao != 2);
+        
+        return opcao;
+    }
+    
+    public boolean jogar(){
+        if(vencer() == 0 ){
+        	tabuleiro.exibeTabuleiro();
+            System.out.println("----------------------");
+            System.out.println("\nRodada "+rodada);
+            System.out.println("É a vez do jogador " + vez() );
+            
+            if(vez()==1)
+                jogador1.jogar(tabuleiro);
+            else
+                jogador2.jogar(tabuleiro);
+            
+            
+            if(tabuleiro.tabuleiroCompleto()){
+                System.out.println("Tabuleiro Completo. Jogo empatado");
+                return false;
             }
-        }
-    }
+            vez++;
+            rodada++;
 
-    public void exibirTabuleiro() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(matriz[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    public int getPosicao() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Digite a posição (1-9): ");
-        int posicao = sc.nextInt();
-        if (posicao < 1 || posicao > 9) {
-            System.out.println("Posição inválida!");
-            return getPosicao();
-        }
-        int linha = (posicao - 1) / 3;
-        int coluna = (posicao - 1) % 3;
-        if (matriz[linha][coluna] != 0) {
-            System.out.println("Posição ocupada!");
-            return getPosicao();
-        }
-        return posicao;
-    }
-
-    public void setPosicao(int posicao) {
-   	 int linha = (posicao - 1) / 3;
-     int coluna = (posicao - 1) % 3;
-
-     if (matriz[linha][coluna] != 0) {
-    	 System.out.println("Posição ocupada! Tente novamente.");
-    	        return;
-    	    }
-
-    	    if (jogadorAtual == 1) {
-    	        matriz[linha][coluna] = MARCA_JOGADOR_1;
-    	    } else {
-    	        matriz[linha][coluna] = MARCA_JOGADOR_2;
-    	    }
-
-    	    jogadorAtual = (jogadorAtual == 1) ? 2 : 1; 
-    	}
-
-    public boolean checaLinhas() {
-        for (int i = 0; i < 3; i++) {
-            if (matriz[i][0] != 0 && matriz[i][0] == matriz[i][1] && matriz[i][1] == matriz[i][2]) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean checaColunas() {
-        for (int i = 0; i < 3; i++) {
-            if (matriz[0][i] != 0 && matriz[0][i] == matriz[1][i] && matriz[1][i] == matriz[2][i]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean checaDiagonais() {
-        if (matriz[0][0] != 0 && matriz[0][0] == matriz[1][1] && matriz[1][1] == matriz[2][2]) {
             return true;
+        } else{
+            if(vencer() == -1 )
+                System.out.println("Jogador 1 ganhou!");
+            else
+                System.out.println("Jogador 2 ganhou!");
+            
+            return false;
         }
-        if (matriz[0][2] != 0 && matriz[0][2] == matriz[1][1] && matriz[1][1] == matriz[2][0]) {
-            return true;
-        }
-        return false;
+            
     }
+    
+    public int vez(){
+        if(vez%2 == 1)
+            return 1;
+        else
+            return 2;
+    }
+    
+    
 
-    public boolean tabuleiroCompleto() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (matriz[i][j] == 0) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    public int[][] getMatriz(){
-    	return matriz;
-    }
+	
+	public int vencer() {
+		if(tabuleiro.checaLinhas() == 1)
+            return 1;
+        if(tabuleiro.checaColunas() == 1)
+            return 1;
+        if(tabuleiro.checaDiagonais() == 1)
+            return 1;
+        
+        if(tabuleiro.checaLinhas() == -1)
+            return -1;
+        if(tabuleiro.checaColunas() == -1)
+            return -1;
+        if(tabuleiro.checaDiagonais() == -1)
+            return -1;
+        
+        return 0;
+	}
+    
+    
 }
-
