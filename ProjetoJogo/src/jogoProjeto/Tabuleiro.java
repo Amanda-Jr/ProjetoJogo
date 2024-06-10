@@ -2,7 +2,6 @@ package jogoProjeto;
 import java.util.Scanner;
 
 public class Tabuleiro {
-
 	private static final char MARCA_JOGADOR_1 = 'X'; 
 	private static final char MARCA_JOGADOR_2 = 'O';
 	
