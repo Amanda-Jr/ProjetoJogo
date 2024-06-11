@@ -3,7 +3,8 @@ import java.util.Scanner;
 
 public class JogoDaVelha implements Jogo{
 	private Tabuleiro tabuleiro = new Tabuleiro();
-    private int rodada=1, vez=1;
+    private int rodada=1; 
+    private int vez=1;
     private Jogador jogador1;
     private Jogador jogador2;
     public Scanner entrada = new Scanner(System.in);
@@ -53,9 +54,9 @@ public class JogoDaVelha implements Jogo{
         	tabuleiro.exibeTabuleiro();
             System.out.println("----------------------");
             System.out.println("\nRodada "+rodada);
-            System.out.println("É a vez do jogador " + turno() );
+            System.out.println("É a vez do jogador " + rodada() );
             
-            if(turno()==1)
+            if(rodada()==1)
                 jogador1.jogar(tabuleiro);
             else
                 jogador2.jogar(tabuleiro);
@@ -85,16 +86,15 @@ public class JogoDaVelha implements Jogo{
             
     }
     
-    public int turno(){
+    
+    public int rodada(){
         if(vez%2 == 1)
             return 1;
         else
             return 2;
     }
     
-    
 
-	
 	public int vencer() {
 		if(tabuleiro.checaLinhas() == 1)
             return 1;

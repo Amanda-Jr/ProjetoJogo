@@ -103,7 +103,5 @@ public class Tabuleiro {
         }
         return true;
     }
-    public int[][] getMatriz(){
-    	return matriz;
-    }
+    
 }

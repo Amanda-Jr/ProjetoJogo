@@ -27,17 +27,16 @@ public class Jokenpo implements Jogo{
 		this.jogada[2] = "tesoura";
 	}
 	
-	@Override
+	
 	public void iniciarJogadores() {
 		this.computador = new Computador(2);
 		this.humano = new Humano(1);
 		
 	}
 
-	@Override
 	public boolean jogar() {
 		if(vencer()== -1) {
-			turno();
+			rodada();
 			System.out.println("\n\n-------------JOKENPO-------------");
 			System.out.println("Rodada: " + rodada);
 			
@@ -114,13 +113,11 @@ public class Jokenpo implements Jogo{
 		}
 	}
 
-	@Override
-	public int turno() {
+	public int rodada() {
 		rodada++;
 		return rodada;
 	}
 
-	@Override
 	public int vencer() {
 		
 		 if(rodada == 3){
