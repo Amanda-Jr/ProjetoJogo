@@ -51,7 +51,6 @@ public class Tabuleiro {
         else
             matriz[tentativa[0]][tentativa[1]] = 1;
         
-        tabuleiroCompleto();
     }
 
     public int checaLinhas(){
